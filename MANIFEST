@@ -1,0 +1,16 @@
+ChangeLog
+MANIFEST
+Makefile.PL
+README
+examples/client.pl
+examples/daemon.pl
+lib/IO/Mux/HTTP.pm
+lib/IO/Mux/HTTP.pod
+lib/IO/Mux/HTTP/Client.pm
+lib/IO/Mux/HTTP/Client.pod
+lib/IO/Mux/HTTP/Server.pm
+lib/IO/Mux/HTTP/Server.pod
+lib/IO/Mux/HTTP/Service.pm
+lib/IO/Mux/HTTP/Service.pod
+t/01use.t
+META.yml                                 Module meta-data (added by MakeMaker)

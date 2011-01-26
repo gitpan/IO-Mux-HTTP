@@ -1,0 +1,6 @@
+
+==== version history for IO::Mux::HTTP
+
+version 0.10: Wed Jan 26 16:34:55 CET 2011
+	- initial implementation, derived from HTTP::Deamon::Multiplex
+	  and some LWP code fragments.

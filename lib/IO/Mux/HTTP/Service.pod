@@ -1,0 +1,441 @@
+=head1 NAME
+
+IO::Mux::HTTP::Service - HTTP client handler
+
+=head1 INHERITANCE
+
+ IO::Mux::HTTP::Service
+   is a IO::Mux::HTTP
+   is a IO::Mux::Net::TCP
+   is a IO::Mux::Handler::Read
+   is a IO::Mux::Handler
+
+   IO::Mux::Net::TCP also extends IO::Mux::Handler::Write
+   is a IO::Mux::Handler::Write
+   is a IO::Mux::Handler
+
+=head1 SYNOPSIS
+
+  # created by an IO::Mux::HTTP::Server object
+
+  sub handler($$$$)
+  {   my ($conn, $request, $session, $callback) = @_;
+      $self->sendResponse(...);
+      $callback->();
+  }
+
+=head1 DESCRIPTION
+
+The managing L<IO::Mux::HTTP::Server|IO::Mux::HTTP::Server> object creates one
+C<IO::Mux::HTTP::Service> object per incoming connection.
+
+=head1 METHODS
+
+=head2 Constructors
+
+=over 4
+
+=item IO::Mux::HTTP::Service-E<gt>B<new>(OPTIONS)
+
+ -Option     --Defined in     --Default
+  add_headers  IO::Mux::HTTP    []
+  fh           IO::Mux::Handler  <required>
+  handler                       <required>
+  name         IO::Mux::Handler  'tcp $host:$port'
+  read_size    IO::Mux::Handler::Read  32768
+  socket       IO::Mux::Net::TCP  <required>
+  write_size   IO::Mux::Handler::Write  4096
+
+=over 2
+
+=item add_headers => ARRAY
+
+=item fh => FILEHANDLE
+
+=item handler => CODE
+
+This handler is called for each message.
+
+The CODE reference gets four parameters: this connection object,
+the received request, a free to use session object and a callback.
+Do not forget to call the callback at the end of your handler.
+
+=item name => STRING
+
+=item read_size => INTEGER
+
+=item socket => IO::Socket::INET
+
+=item write_size => INTEGER
+
+=back
+
+=item IO::Mux::HTTP::Service-E<gt>B<open>(MODE, WHAT, OPTIONS)
+See L<IO::Mux::Handler/"Constructors">
+
+=item IO::Mux::HTTP::Service-E<gt>B<open>(MODE, WHAT, OPTIONS)
+See L<IO::Mux::Handler/"Constructors">
+
+=back
+
+=head2 Accessors
+
+=over 4
+
+=item $obj-E<gt>B<client>
+
+Returns a HASH with some basic information about the client, not
+the socket itself.
+
+=item $obj-E<gt>B<fh>
+See L<IO::Mux::Handler/"Accessors">
+
+=item $obj-E<gt>B<fh>
+See L<IO::Mux::Handler/"Accessors">
+
+=item $obj-E<gt>B<fileno>
+See L<IO::Mux::Handler/"Accessors">
+
+=item $obj-E<gt>B<fileno>
+See L<IO::Mux::Handler/"Accessors">
+
+=item $obj-E<gt>B<msgsSent>
+
+=item $obj-E<gt>B<mux>
+See L<IO::Mux::Handler/"Accessors">
+
+=item $obj-E<gt>B<mux>
+See L<IO::Mux::Handler/"Accessors">
+
+=item $obj-E<gt>B<name>
+See L<IO::Mux::Handler/"Accessors">
+
+=item $obj-E<gt>B<name>
+See L<IO::Mux::Handler/"Accessors">
+
+=item $obj-E<gt>B<readSize>([INTEGER])
+See L<IO::Mux::Handler::Read/"Accessors">
+
+=item $obj-E<gt>B<socket>
+See L<IO::Mux::Net::TCP/"Accessors">
+
+=item $obj-E<gt>B<startTime>
+See L<IO::Mux::HTTP/"Accessors">
+
+=item $obj-E<gt>B<usesSSL>
+See L<IO::Mux::Handler/"Accessors">
+
+=item $obj-E<gt>B<usesSSL>
+See L<IO::Mux::Handler/"Accessors">
+
+=item $obj-E<gt>B<writeSize>([INTEGER])
+See L<IO::Mux::Handler::Write/"Accessors">
+
+=back
+
+=head2 User interface
+
+=head3 Connection
+
+=over 4
+
+=item $obj-E<gt>B<close>([CALLBACK])
+See L<IO::Mux::Handler/"Connection">
+
+=item $obj-E<gt>B<close>([CALLBACK])
+See L<IO::Mux::Handler/"Connection">
+
+=item $obj-E<gt>B<shutdown>((0|1|2))
+See L<IO::Mux::Net::TCP/"Connection">
+
+=item $obj-E<gt>B<timeout>([TIMEOUT])
+See L<IO::Mux::Handler/"Connection">
+
+=item $obj-E<gt>B<timeout>([TIMEOUT])
+See L<IO::Mux::Handler/"Connection">
+
+=back
+
+=head3 Reading
+
+=over 4
+
+=item $obj-E<gt>B<readline>(CALLBACK)
+See L<IO::Mux::Handler::Read/"Reading">
+
+=item $obj-E<gt>B<slurp>(CALLBACK)
+See L<IO::Mux::Handler::Read/"Reading">
+
+=back
+
+=head3 Writing
+
+=over 4
+
+=item $obj-E<gt>B<print>(STRING|SCALAR|LIST|ARRAY)
+See L<IO::Mux::Handler::Write/"Writing">
+
+=item $obj-E<gt>B<printf>(FORMAT, PARAMS)
+See L<IO::Mux::Handler::Write/"Writing">
+
+=item $obj-E<gt>B<say>(STRING|SCALAR|LIST|ARRAY)
+See L<IO::Mux::Handler::Write/"Writing">
+
+=item $obj-E<gt>B<write>(SCALAR, [MORE])
+See L<IO::Mux::Handler::Write/"Writing">
+
+=back
+
+=head2 Multiplexer
+
+=head3 Connection
+
+=over 4
+
+=item $obj-E<gt>B<mux_init>(MUX, [HANDLER])
+See L<IO::Mux::Handler/"Connection">
+
+=item $obj-E<gt>B<mux_init>(MUX, [HANDLER])
+See L<IO::Mux::Handler/"Connection">
+
+=item $obj-E<gt>B<mux_remove>
+See L<IO::Mux::Handler/"Connection">
+
+=item $obj-E<gt>B<mux_remove>
+See L<IO::Mux::Handler/"Connection">
+
+=item $obj-E<gt>B<mux_timeout>
+See L<IO::Mux::Handler/"Connection">
+
+=item $obj-E<gt>B<mux_timeout>
+See L<IO::Mux::Handler/"Connection">
+
+=back
+
+=head3 Reading
+
+=over 4
+
+=item $obj-E<gt>B<mux_eof>
+See L<IO::Mux::Net::TCP/"Multiplexer">
+
+=item $obj-E<gt>B<mux_except_flagged>(FILENO)
+See L<IO::Mux::Handler/"Reading">
+
+=item $obj-E<gt>B<mux_except_flagged>(FILENO)
+See L<IO::Mux::Handler/"Reading">
+
+=item $obj-E<gt>B<mux_input>(BUFFER)
+See L<IO::Mux::Handler::Read/"Reading">
+
+=item $obj-E<gt>B<mux_read_flagged>(FILENO)
+See L<IO::Mux::Handler/"Reading">
+
+=item $obj-E<gt>B<mux_read_flagged>(FILENO)
+See L<IO::Mux::Handler/"Reading">
+
+=back
+
+=head3 Writing
+
+=over 4
+
+=item $obj-E<gt>B<mux_outbuffer_empty>
+See L<IO::Mux::Handler::Write/"Writing">
+
+=item $obj-E<gt>B<mux_output_waiting>
+See L<IO::Mux::Handler::Write/"Writing">
+
+=item $obj-E<gt>B<mux_write_flagged>(FILENO)
+See L<IO::Mux::Handler/"Writing">
+
+=item $obj-E<gt>B<mux_write_flagged>(FILENO)
+See L<IO::Mux::Handler/"Writing">
+
+=back
+
+=head3 Service
+
+=head2 Helpers
+
+=over 4
+
+=item $obj-E<gt>B<extractSocket>(HASH)
+
+=item IO::Mux::HTTP::Service-E<gt>B<extractSocket>(HASH)
+See L<IO::Mux::Handler/"Helpers">
+
+=item $obj-E<gt>B<extractSocket>(HASH)
+
+=item IO::Mux::HTTP::Service-E<gt>B<extractSocket>(HASH)
+See L<IO::Mux::Handler/"Helpers">
+
+=item $obj-E<gt>B<fdset>(STATE, READ, WRITE, ERROR)
+See L<IO::Mux::Handler/"Helpers">
+
+=item $obj-E<gt>B<fdset>(STATE, READ, WRITE, ERROR)
+See L<IO::Mux::Handler/"Helpers">
+
+=item $obj-E<gt>B<show>
+See L<IO::Mux::Handler/"Helpers">
+
+=item $obj-E<gt>B<show>
+See L<IO::Mux::Handler/"Helpers">
+
+=back
+
+=head2 HTTP protocol
+
+=over 4
+
+=item $obj-E<gt>B<closeConnection>
+See L<IO::Mux::HTTP/"HTTP protocol">
+
+=item $obj-E<gt>B<errorResponse>(REQUEST, STATUS, [TEXT])
+
+=item $obj-E<gt>B<makeResponse>(REQUEST, STATUS, HEADER, [CONTENT])
+
+The STATUS code is used in the response, preferrable use the constants
+from HTTP::Status.
+
+The HEADER is an ARRAY of header line pairs to be used in the answer
+or an HTTP::Headers object.
+
+You can use a scalar CONTENT, which will be used as response body.
+In case the CONTENT parameter is a CODE reference, that CODE will
+be called until C<undef> is returned.  The result of every call will
+become a chunk in a chunked transfer encoded response.
+
+=item $obj-E<gt>B<redirectResponse>(REQUEST, STATUS, LOCATION, [CONTENT])
+
+=item $obj-E<gt>B<sendMessage>(MESSAGE, CALLBACK)
+See L<IO::Mux::HTTP/"HTTP protocol">
+
+=item $obj-E<gt>B<sendResponse>(RESPONSE, CALLBACK, [SESSION])
+
+=back
+
+=head1 DETAILS
+
+=head2 Coding examples
+
+=head3 simple example
+
+  sub incoming_first
+  {   my ($client, $req) = @_;
+
+      # create a response based on $req, an HTTP::Request object
+      my $resp1 = HTTP::Response->new(...);
+      $client->sendResponse($resp1, \&step2);
+  }
+
+  # step2 is called when the delivery of $status fails
+  sub step2
+  {   my ($client, $resp1, $status, $req2) = @_;
+
+      # Although we only plan to reply a single request, that
+      # sending can go wrong
+      if($status!=HTTP_OK)
+      {   # Some extra error logging, maybe?
+          # $resp1 is now not the $resp1 you intended to send, but
+          # the error which has been sent (if any)
+          return;
+      }
+
+      # Of course, the connection can be reused for a next request.
+      # Restart thread with this message.
+      incoming_first $client, $req2;
+  }
+
+  # cheapest implementation for step2
+  sub step2
+  {   my ($client, $resp1, $status, $req2) = @_;
+      incoming_first $client, $req2  # not for mee
+          if $status==HTTP_OK;
+  }
+
+=head3 more complex example
+
+  sub incoming_first
+  {   my ($client, $req) = @_;
+
+      # Create a response based on $req, an HTTP::Request object
+      my $resp1   = HTTP::Response->new(...);
+
+      # Lets have a session object
+      my $session = { sent => time() };
+
+      $client->sendResponse($resp1, \&step2, $session);
+  }
+
+  sub step2
+  {   my ($client, $resp1, $status, $req2, $session) = @_;
+      $status!=HTTP_OK or return;
+
+      print "ping time: ", time - $session->{sent}, "\n";
+
+      my $resp2 = $client->makeResponse(...);
+
+      # do not accept more request (there may be queued, which
+      # will get removed.
+      $client->closeConnection;
+
+      $client->sendReponse($resp2, \&step3, $session);
+  }
+
+  # Although the connection got closed, step3 will still be
+  # called in case of an error.
+  sub step3
+  {   my ($client, $resp2, $status, undef, $session) = @_;
+      # $status!=HTTP_OK
+  }
+
+The server is a daemon: a process which always runs. There are many
+deamon implementations available for Perl. See the F<examples/>
+directory for an example which uses L<Any::Daemon|Any::Daemon>.  The examples
+below should seamlessly fit in the C<run_multiplexer()> function
+shown there.
+
+The initiation looks much like that of a client.
+  use HTTP::Status 'HTTP_OK';
+
+  # You may also choose IO::Mux::Select or other
+  # multiplex instances (to be developed)
+  use IO::Mux::Poll;
+  my $mux    = IO::Mux::Poll->new;
+
+  my $server = "localhost:8081";
+  my $client = IO::Mux::HTTP::Server->new
+    ( LocalAddr => $server
+    , handler   => \&incoming_first
+    );
+  $mux->add($client);
+
+  # You may initiate multiple clients and start many different steps
+  # until you start the loop.
+  $mux->loop;
+
+  # The loop is left when all connections have closed
+  exit 0;
+
+  # Now here comes the implementation as shown in the examples below.
+
+=head1 SEE ALSO
+
+This module is part of IO-Mux-HTTP distribution version 0.10,
+built on January 26, 2011. Website: F<http://perl.overmeer.net/>
+All modules in this suite:
+L</Any::Daemon>,
+L</IO::Mux>, and
+L</IO::Mux::HTTP>.
+
+Please post questions or ideas to F<perl@overmeer.net>
+
+=head1 LICENSE
+
+Copyrights 2011 by Mark Overmeer. For other contributors see ChangeLog.
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+See F<http://www.perl.com/perl/misc/Artistic.html>
+
